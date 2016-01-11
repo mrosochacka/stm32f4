@@ -35,6 +35,8 @@
 /* Private functions */
 void TIM_Config();
 void GPIO_Config();
+void NVIC_Config();
+void ADC_Config();
 
 /**
 **===========================================================================
@@ -57,6 +59,8 @@ int main(void)
 
   TIM_Config();
   GPIO_Config();
+  ADC_Config();
+  NVIC_Config();
 
   GPIO_ResetBits(GPIOD, GPIO_Pin_12 | GPIO_Pin_13);
   /* Infinite loop */
@@ -82,6 +86,13 @@ void GPIO_Config() {
 	GPIO_InitStructure.GPIO_Pin		= GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_PuPd	= GPIO_PuPd_NOPULL;
+
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin		= GPIO_Pin_1;
+	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AN;
 	GPIO_InitStructure.GPIO_PuPd	= GPIO_PuPd_NOPULL;
 
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
@@ -126,4 +137,59 @@ void TIM_Config() {
 	TIM_ITConfig(TIM1, TIM_IT_CC1, ENABLE);
 
 	TIM_Cmd(TIM1, ENABLE);
+
+}
+
+void NVIC_Config() {
+	NVIC_InitTypeDef NVIC_Init_Structure;
+	EXTI_InitTypeDef EXTI_Init_Structure;
+	NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+
+	NVIC_Init_Structure.NVIC_IRQChannel = EXTI0_IRQn;
+	NVIC_Init_Structure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_Init_Structure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_Init_Structure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_Init_Structure);
+
+	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource0);
+	EXTI_Init_Structure.EXTI_Line = EXTI_Line0;
+	EXTI_Init_Structure.EXTI_Mode = EXTI_Mode_Interrupt;
+	EXTI_Init_Structure.EXTI_Trigger = EXTI_Trigger_Rising;
+	EXTI_Init_Structure.EXTI_LineCmd = ENABLE;
+	EXTI_Init(&EXTI_Init_Structure);
+
+	NVIC_Init_Structure.NVIC_IRQChannel = ADC_IRQn;
+	NVIC_Init_Structure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_Init_Structure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_Init_Structure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_Init_Structure);
+}
+
+void ADC_Config() {
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+
+	ADC_CommonInitTypeDef ADC_CommonInitStruct;
+
+	ADC_CommonInitStruct.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
+	ADC_CommonInitStruct.ADC_Mode = ADC_Mode_Independent;
+
+	ADC_CommonInit(&ADC_CommonInitStruct);
+
+	ADC_InitTypeDef ADC_Init_Structure;
+
+	ADC_Init_Structure.ADC_ContinuousConvMode = DISABLE;
+	ADC_Init_Structure.ADC_DataAlign = ADC_DataAlign_Right;
+	ADC_Init_Structure.ADC_NbrOfConversion = 1;
+	ADC_Init_Structure.ADC_Resolution = ADC_Resolution_12b;
+	ADC_Init_Structure.ADC_ScanConvMode = DISABLE;
+
+	ADC_Init(ADC1, &ADC_Init_Structure);
+
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_3Cycles);
+
+	ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
+
+	ADC_Cmd(ADC1, ENABLE);
+
 }

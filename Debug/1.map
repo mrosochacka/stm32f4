@@ -35,20 +35,27 @@ Discarded input sections
  .group         0x00000000        0x8 ./src/main.o
  .group         0x00000000        0x8 ./src/main.o
  .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
  .text          0x00000000        0x0 ./src/main.o
  .data          0x00000000        0x0 ./src/main.o
  .bss           0x00000000        0x0 ./src/main.o
  .text.GPIO_Config
-                0x00000000       0x58 ./src/main.o
+                0x00000000       0x70 ./src/main.o
  .text.TIM_Config
                 0x00000000       0xb8 ./src/main.o
- .text.main     0x00000000       0x1c ./src/main.o
- .debug_info    0x00000000      0xad6 ./src/main.o
+ .text.NVIC_Config
+                0x00000000       0x6c ./src/main.o
+ .text.ADC_Config
+                0x00000000       0x60 ./src/main.o
+ .text.main     0x00000000       0x24 ./src/main.o
+ .debug_info    0x00000000      0xfa4 ./src/main.o
  .debug_abbrev  0x00000000      0x1a3 ./src/main.o
  .debug_aranges
-                0x00000000       0x30 ./src/main.o
- .debug_ranges  0x00000000       0x20 ./src/main.o
- .debug_macro   0x00000000       0xb0 ./src/main.o
+                0x00000000       0x40 ./src/main.o
+ .debug_ranges  0x00000000       0x30 ./src/main.o
+ .debug_macro   0x00000000       0xcb ./src/main.o
  .debug_macro   0x00000000      0x89e ./src/main.o
  .debug_macro   0x00000000       0x64 ./src/main.o
  .debug_macro   0x00000000       0x3b ./src/main.o
@@ -57,17 +64,23 @@ Discarded input sections
  .debug_macro   0x00000000       0x26 ./src/main.o
  .debug_macro   0x00000000      0xd39 ./src/main.o
  .debug_macro   0x00000000     0x8ca5 ./src/main.o
- .debug_macro   0x00000000      0x2ee ./src/main.o
+ .debug_macro   0x00000000      0x44f ./src/main.o
+ .debug_macro   0x00000000       0xb5 ./src/main.o
+ .debug_macro   0x00000000      0x2f4 ./src/main.o
  .debug_macro   0x00000000      0x650 ./src/main.o
+ .debug_macro   0x00000000       0xf7 ./src/main.o
  .debug_macro   0x00000000      0x73b ./src/main.o
  .debug_macro   0x00000000       0x82 ./src/main.o
  .debug_macro   0x00000000       0x35 ./src/main.o
- .debug_line    0x00000000      0x373 ./src/main.o
- .debug_str     0x00000000    0x43c95 ./src/main.o
+ .debug_line    0x00000000      0x3f8 ./src/main.o
+ .debug_str     0x00000000    0x482d3 ./src/main.o
  .comment       0x00000000       0x71 ./src/main.o
- .debug_frame   0x00000000       0x70 ./src/main.o
+ .debug_frame   0x00000000       0xb4 ./src/main.o
  .ARM.attributes
                 0x00000000       0x33 ./src/main.o
+ .group         0x00000000        0x8 ./src/stm32f4xx_it.o
+ .group         0x00000000        0x8 ./src/stm32f4xx_it.o
+ .group         0x00000000        0x8 ./src/stm32f4xx_it.o
  .group         0x00000000        0x8 ./src/stm32f4xx_it.o
  .group         0x00000000        0x8 ./src/stm32f4xx_it.o
  .group         0x00000000        0x8 ./src/stm32f4xx_it.o
@@ -111,7 +124,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x70 ./src/stm32f4xx_it.o
  .debug_ranges  0x00000000       0x60 ./src/stm32f4xx_it.o
- .debug_macro   0x00000000       0xba ./src/stm32f4xx_it.o
+ .debug_macro   0x00000000       0xd5 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000      0x89e ./src/stm32f4xx_it.o
  .debug_macro   0x00000000       0x64 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000       0x3b ./src/stm32f4xx_it.o
@@ -120,17 +133,23 @@ Discarded input sections
  .debug_macro   0x00000000       0x26 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000      0xd39 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000     0x8ca5 ./src/stm32f4xx_it.o
- .debug_macro   0x00000000      0x2ee ./src/stm32f4xx_it.o
+ .debug_macro   0x00000000      0x44f ./src/stm32f4xx_it.o
+ .debug_macro   0x00000000       0xb5 ./src/stm32f4xx_it.o
+ .debug_macro   0x00000000      0x2f4 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000      0x650 ./src/stm32f4xx_it.o
+ .debug_macro   0x00000000       0xf7 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000      0x73b ./src/stm32f4xx_it.o
  .debug_macro   0x00000000       0x82 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000       0x35 ./src/stm32f4xx_it.o
- .debug_line    0x00000000      0x3f5 ./src/stm32f4xx_it.o
- .debug_str     0x00000000    0x43521 ./src/stm32f4xx_it.o
+ .debug_line    0x00000000      0x432 ./src/stm32f4xx_it.o
+ .debug_str     0x00000000    0x47869 ./src/stm32f4xx_it.o
  .comment       0x00000000       0x71 ./src/stm32f4xx_it.o
  .debug_frame   0x00000000       0xd0 ./src/stm32f4xx_it.o
  .ARM.attributes
                 0x00000000       0x33 ./src/stm32f4xx_it.o
+ .group         0x00000000        0x8 ./src/system_stm32f4xx.o
+ .group         0x00000000        0x8 ./src/system_stm32f4xx.o
+ .group         0x00000000        0x8 ./src/system_stm32f4xx.o
  .group         0x00000000        0x8 ./src/system_stm32f4xx.o
  .group         0x00000000        0x8 ./src/system_stm32f4xx.o
  .group         0x00000000        0x8 ./src/system_stm32f4xx.o
@@ -163,7 +182,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x30 ./src/system_stm32f4xx.o
  .debug_ranges  0x00000000       0x20 ./src/system_stm32f4xx.o
- .debug_macro   0x00000000       0xd3 ./src/system_stm32f4xx.o
+ .debug_macro   0x00000000       0xee ./src/system_stm32f4xx.o
  .debug_macro   0x00000000      0x89e ./src/system_stm32f4xx.o
  .debug_macro   0x00000000       0x64 ./src/system_stm32f4xx.o
  .debug_macro   0x00000000       0x3b ./src/system_stm32f4xx.o
@@ -172,13 +191,16 @@ Discarded input sections
  .debug_macro   0x00000000       0x26 ./src/system_stm32f4xx.o
  .debug_macro   0x00000000      0xd39 ./src/system_stm32f4xx.o
  .debug_macro   0x00000000     0x8ca5 ./src/system_stm32f4xx.o
- .debug_macro   0x00000000      0x2ee ./src/system_stm32f4xx.o
+ .debug_macro   0x00000000      0x44f ./src/system_stm32f4xx.o
+ .debug_macro   0x00000000       0xb5 ./src/system_stm32f4xx.o
+ .debug_macro   0x00000000      0x2f4 ./src/system_stm32f4xx.o
  .debug_macro   0x00000000      0x650 ./src/system_stm32f4xx.o
+ .debug_macro   0x00000000       0xf7 ./src/system_stm32f4xx.o
  .debug_macro   0x00000000      0x73b ./src/system_stm32f4xx.o
  .debug_macro   0x00000000       0x82 ./src/system_stm32f4xx.o
  .debug_macro   0x00000000       0x35 ./src/system_stm32f4xx.o
- .debug_line    0x00000000      0x399 ./src/system_stm32f4xx.o
- .debug_str     0x00000000    0x4350d ./src/system_stm32f4xx.o
+ .debug_line    0x00000000      0x3d6 ./src/system_stm32f4xx.o
+ .debug_str     0x00000000    0x47855 ./src/system_stm32f4xx.o
  .comment       0x00000000       0x71 ./src/system_stm32f4xx.o
  .debug_frame   0x00000000       0x50 ./src/system_stm32f4xx.o
  .ARM.attributes
