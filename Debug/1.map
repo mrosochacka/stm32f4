@@ -116,14 +116,14 @@ Discarded input sections
  .text.SysTick_Handler
                 0x00000000        0x4 ./src/stm32f4xx_it.o
  .text.TIM1_CC_IRQHandler
-                0x00000000       0x50 ./src/stm32f4xx_it.o
+                0x00000000       0x84 ./src/stm32f4xx_it.o
  .text.TIM1_UP_TIM10_IRQHandler
                 0x00000000       0x3c ./src/stm32f4xx_it.o
  .text.EXTI0_IRQHandler
                 0x00000000       0x34 ./src/stm32f4xx_it.o
  .text.ADC_IRQHandler
                 0x00000000       0x28 ./src/stm32f4xx_it.o
- .debug_info    0x00000000      0x86f ./src/stm32f4xx_it.o
+ .debug_info    0x00000000      0x8dc ./src/stm32f4xx_it.o
  .debug_abbrev  0x00000000      0x1a3 ./src/stm32f4xx_it.o
  .debug_loc     0x00000000       0x13 ./src/stm32f4xx_it.o
  .debug_aranges
@@ -146,8 +146,8 @@ Discarded input sections
  .debug_macro   0x00000000      0x73b ./src/stm32f4xx_it.o
  .debug_macro   0x00000000       0x82 ./src/stm32f4xx_it.o
  .debug_macro   0x00000000       0x35 ./src/stm32f4xx_it.o
- .debug_line    0x00000000      0x459 ./src/stm32f4xx_it.o
- .debug_str     0x00000000    0x47954 ./src/stm32f4xx_it.o
+ .debug_line    0x00000000      0x462 ./src/stm32f4xx_it.o
+ .debug_str     0x00000000    0x47964 ./src/stm32f4xx_it.o
  .comment       0x00000000       0x71 ./src/stm32f4xx_it.o
  .debug_frame   0x00000000      0x100 ./src/stm32f4xx_it.o
  .ARM.attributes

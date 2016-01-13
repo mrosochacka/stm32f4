@@ -157,8 +157,14 @@ void TIM1_CC_IRQHandler(void) {
 		TIM_SetCompare1(TIM1, TIM_GetCapture1(TIM1)+1000);
 		TIM_ClearITPendingBit(TIM1, TIM_IT_CC1);
 	}
-}
 
+	if (TIM_GetITStatus(TIM1, TIM_IT_CC1) != RESET) {   //CC1 - osiagniecie wartosci
+    TIM_ClearITPendingBit(TIM1, TIM_IT_CC1);
+    GPIO_ToggleBits(GPIOD, GPIO_Pin_15);
+		ADC1->CR2 |= ADC_CR2_SWSTART;
+		while( !(ADC1->SR & ADC_SR_EOC));	//Czekaj na ustwienie flagi EOC
+  }
+}
 void TIM1_UP_TIM10_IRQHandler(void) {
 	if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET) {
 		GPIO_WriteBit(GPIOD, GPIO_Pin_13, 1-GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_13));
@@ -179,3 +185,4 @@ void ADC_IRQHandler(void) {
 		ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
 	}
 }
+
