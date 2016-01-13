@@ -165,3 +165,17 @@ void TIM1_UP_TIM10_IRQHandler(void) {
 		TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
 	}
 }
+
+void  EXTI0_IRQHandler(void) {
+	uint8_t bitState=GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_12);
+	GPIO_WriteBit(GPIOD, GPIO_Pin_12, 1-bitState);
+	ADC_SoftwareStartConv(ADC1);
+	EXTI_ClearITPendingBit(EXTI_Line0);
+}
+
+void ADC_IRQHandler(void) {
+	if(ADC_GetITStatus(ADC1, ADC_IT_EOC) != RESET) {
+		uint16_t res = ADC_GetConversionValue(ADC1)>>4;
+		ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
+	}
+}
