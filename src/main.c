@@ -146,12 +146,14 @@ void NVIC_Config() {
 	NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0);
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
+	/* Konfiguracja NVIC i wlaczenie obslugi przerwania */
 	NVIC_Init_Structure.NVIC_IRQChannel = EXTI0_IRQn;
 	NVIC_Init_Structure.NVIC_IRQChannelPreemptionPriority = 1;
 	NVIC_Init_Structure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init_Structure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_Init_Structure);
 
+	/* Bedzie generowane przerwanie na zboczu opadajacym na EXTI_Line0 */
 	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource0);
 	EXTI_Init_Structure.EXTI_Line = EXTI_Line0;
 	EXTI_Init_Structure.EXTI_Mode = EXTI_Mode_Interrupt;
@@ -193,3 +195,4 @@ void ADC_Config() {
 	ADC_Cmd(ADC1, ENABLE);
 
 }
+
