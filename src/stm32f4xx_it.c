@@ -151,6 +151,10 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
+
+/*TIM1  przepe³nieniu generuje zdarzenie na CC1 (na które nastêpnie zareaguje ADC.)*
+ *
+ */
 void TIM1_CC_IRQHandler(void) {
 	if (TIM_GetITStatus(TIM1, TIM_IT_CC1) != RESET) {
 		GPIO_WriteBit(GPIOD, GPIO_Pin_12, 1-GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_12));
