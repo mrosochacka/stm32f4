@@ -34,9 +34,12 @@
 /* Private function prototypes */
 /* Private functions */
 void TIM_Config();
-void GPIO_Config();
-void NVIC_Config();
+void GPIO_Config(void);
+void NVIC_Config(void);
 void ADC_Config();
+void USART_Config(void);
+void USART_puts( volatile char *s);
+
 
 /**
 **===========================================================================
@@ -61,6 +64,13 @@ int main(void)
   GPIO_Config();
   ADC_Config();
   NVIC_Config();
+  USART_Config();
+
+
+	while (1)
+	{ USART_puts("armprogramming.com");
+
+	}
 
   GPIO_ResetBits(GPIOD, GPIO_Pin_12 | GPIO_Pin_13);
   /* Infinite loop */
@@ -69,33 +79,22 @@ int main(void)
   }
 }
 
-void GPIO_Config() {
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+void GPIO_Config(void)
+{
 
-	//LED 1,2,3,4
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Pin		= GPIO_Pin_12 | GPIO_Pin_13;
-	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType	= GPIO_OType_PP;
 
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART1);
+	GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART1);
 
-	//button USER
-	GPIO_InitStructure.GPIO_Pin		= GPIO_Pin_0;
-	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_IN;
-	GPIO_InitStructure.GPIO_PuPd	= GPIO_PuPd_NOPULL;
-
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Pin		= GPIO_Pin_1;
-	GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AN;
-	GPIO_InitStructure.GPIO_PuPd	= GPIO_PuPd_NOPULL;
-
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	//PC6 - Tx PC7 - Rx
+	GPIO_InitTypeDef  GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 
 void TIM_Config() {
@@ -143,7 +142,7 @@ void TIM_Config() {
 void NVIC_Config() {
 	NVIC_InitTypeDef NVIC_Init_Structure;
 	EXTI_InitTypeDef EXTI_Init_Structure;
-	NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0);
+
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
 	/* Konfiguracja NVIC i wlaczenie obslugi przerwania */
@@ -166,6 +165,19 @@ void NVIC_Config() {
 	NVIC_Init_Structure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init_Structure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_Init_Structure);
+
+	NVIC_InitTypeDef NVIC_InitStructure;
+
+	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);
+
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+
+	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
 }
 
 void ADC_Config() {
@@ -196,3 +208,20 @@ void ADC_Config() {
 
 }
 
+void USART_puts(volatile char *s){
+
+while(*s){
+ // wait until data register is empty
+ while( !(USART1->SR & 0x00000040) );
+ USART_SendData(USART1, *s);
+ s++;
+ }
+}
+#ifdef USE_FULL_ASSERT
+
+void assert_failed(uint8_t* file, uint32_t line)
+{
+ while (1)
+ {}
+}
+#endif

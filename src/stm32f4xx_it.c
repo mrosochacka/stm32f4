@@ -10,7 +10,7 @@
 **  Environment : Atollic TrueSTUDIO(R)
 **                STMicroelectronics STM32F4xx Standard Peripherals Library
 **
-**  Distribution: The file is distributed “as is,” without any warranty
+**  Distribution: The file is distributed ï¿½as is,ï¿½ without any warranty
 **                of any kind.
 **
 **  (c)Copyright Atollic AB.
@@ -27,6 +27,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
+#include "stm32f4xx_conf.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -151,10 +152,6 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
-
-/*TIM1  przepe³nieniu generuje zdarzenie na CC1 (na które nastêpnie zareaguje ADC.)*
- *
- */
 void TIM1_CC_IRQHandler(void) {
 	if (TIM_GetITStatus(TIM1, TIM_IT_CC1) != RESET) {
 		GPIO_WriteBit(GPIOD, GPIO_Pin_12, 1-GPIO_ReadOutputDataBit(GPIOD, GPIO_Pin_12));
@@ -189,4 +186,33 @@ void ADC_IRQHandler(void) {
 		ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
 	}
 }
+
+void USART1_IRQHandler(void) {
+
+	static uint16_t RxByte = 0x00;
+
+	if (USART_GetITStatus(USART1, USART_IT_TC) == SET)
+	{
+
+		if (USART_GetFlagStatus(USART1, USART_FLAG_TC))
+		{
+			USART_SendData(USART1, RxByte);
+			USART_ITConfig(USART1, USART_IT_TC, DISABLE);
+		}
+
+		USART_ClearITPendingBit(USART1, USART_IT_TC);
+	}
+
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
+	{
+		if (USART_GetFlagStatus(USART1, USART_FLAG_RXNE))
+		{
+			RxByte = USART_ReceiveData(USART1);
+			USART_ITConfig(USART1, USART_IT_TC, ENABLE);
+		}
+
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+}
+
 
