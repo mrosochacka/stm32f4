@@ -82,8 +82,8 @@ int main(void)
 void GPIO_Config(void)
 {
 
-
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_USART1);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_USART1);
 
@@ -228,7 +228,7 @@ void USART_Config(void)
 void send_char(char c)
 {
 	while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-	USART_SendData(USART2, c);
+	USART_SendData(USART1, c);
 }
 
 void send_string(const char* s)
