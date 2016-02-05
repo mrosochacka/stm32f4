@@ -87,7 +87,7 @@ void GPIO_Config(void)
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_USART1);
 	GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_USART1);
 
-	//PC6 - Tx PC7 - Rx
+	//PC8 - Tx PC9 - Rx
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -225,20 +225,19 @@ void USART_Config(void)
 
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 }
+void send_char(char c)
+{
+	while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+	USART_SendData(USART2, c);
+}
+
+void send_string(const char* s)
+{
+	while (*s)
+		send_char(*s++);
+}
 void USART_puts(volatile char *s){
 
-while(*s){
- // wait until data register is empty
- while( !(USART1->SR & 0x00000040) );
- USART_SendData(USART1, *s);
- s++;
- }
-}
-#ifdef USE_FULL_ASSERT
-
-void assert_failed(uint8_t* file, uint32_t line)
-{
- while (1)
- {}
-}
-#endif
+	while (1) {
+			send_string("Hello world!\r\n");
+		}
